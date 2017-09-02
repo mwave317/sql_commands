@@ -1,0 +1,13 @@
+//This returns the count of each gender once the cities table and votes table are joined. In pqsql you need to use the "if the id has a captial letter".
+1. select gender, count(gender) from votes join cities on cities.id=votes."cityId" where name='Greensboro' group by votes.gender;
+// This returns the average age of the voters in Orlando
+2. select avg(age) from votes join cities on cities.id=votes."cityId" where name='Orlando';
+//This will give you the total of cities for each state
+3.select states.name, count(cities.name) from cities join states on states.id=cities."stateId" group by states.name limit 1;
+//This will give you the count of votes for each state
+4. select states.name, count(votes.id) from states join cities on states.id=cities."stateId" join
+ votes on votes."cityId"=cities.id group by states.name order by count(votes.id) desc limit 1;
+//
+5. select count(*) from (select count(in_favor), cities.name from votes join cities on votes."cityId"=cities.id join issues on issues.id=votes."issueId" where in_favor='t' and "issueId"=2 group by cities.name having count(in_favor)> 100) as passed_rate;
+//
+6. select issues.id, cities.name from votes join cities on votes."cityId" = cities.id join issues on issues.id=votes."issueId" where in_favor='t' and cities.name similar to 'Dallas%|Atlanta%|Anaheim%|Boston%' group by cities.name, issues.id having count(in_favor)>100;
